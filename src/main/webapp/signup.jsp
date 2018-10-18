@@ -12,8 +12,10 @@
     	Dept:<input type="text" name="department" /><br>
     	Quali:<input type="text" name="qualifications" /><br>
     	Dob:<input type="date" name="dob" /><br>
-    	Doj<input type="date" name="doj" /><br>
+    	Doj:<input type="date" name="doj" /><br>
     	Appraiser name:<input type="text" name="appraiser_name" /><br>
+    	Create Password:<input type="password" name="password" /><br>
+    	Confirm Password:<input type="password" name="conpassword" /><br>
    		<input type="submit"/>
    	</form>
  </body>
