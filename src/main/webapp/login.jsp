@@ -10,17 +10,27 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
     <style>
     body{
-        background-color:rgb(245, 245, 239);
+        background-color:rgb(235, 235, 224);
+        font-family: 'ABeeZee';
 
     }
         .input-form{
             text-align:center;
             border-radius :3px;
             color:black;
-            margin-top:15%:
+            position:relative;
+
+            margin: auto;
+			min-width: 250px;
+			width:400px;
+			  background-color:rgb(230, 230, 230);
+
+
         }
+        .jumbotron{background-color:rgb(235, 235, 224);}
         .heade{
             margin-top:10%:
             color:black;
@@ -29,29 +39,39 @@
             background-color:white;
 
         }
+
     </style>
 </head>
 <body>
 <div class="logo">
     <img src="mulogo.png"/>
 </div>
-<div class="container-fluid" style="text-align :center;padding-top:10%;">
-    <div class="input-form">
-        <div class="heade">
-        <h2>LOGIN</h2>
-        </div>
+    <div class="jumbotron text-center">
+        <h3>Performance Managment System</h3>
+    </div>
+<div class="container-fluid " style="text-align :center;">
+<center>
+        <div class="input-form" >
+
+        <h2 class="heade ">LOGIN</h2>
+
+
         <form class="form-horizontal" action="loginsubmit" method="post">
-            	<div class="form-group">
-            	    <label class="control-label">Employee ID</label>
-            	    <input type="text" name="id"/>
+            	<div class="form-group ">
+            	    <label class="control-label">Employee ID:</label>
+            	    <input type="text" name="id" maxlength="8" />
             	</div>
-                <div class="form-group">
-                    <label class="control-label">Password</label>
+                <div class="form-group ">
+                    <label class="control-label">Password : </label>
                     <input type="password" name="password"/>
                  </div>
                 <input class="btn btn-primary" type="submit"/>
          </form>
+         </div>
+
     </div>
+</center>
+</div>
 
 
  </body>
