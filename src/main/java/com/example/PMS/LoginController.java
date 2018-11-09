@@ -21,6 +21,9 @@ public class LoginController
 {
 	private String SELECT_SQL = "SELECT * FROM facultydetails WHERE id=:id";
 	
+	//private  PmsFormController pmsformcontroller = new PmsFormController();
+	
+	private Faculty faculty;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -50,7 +53,7 @@ public class LoginController
 		 }  
 	}  
 	
-	@RequestMapping("/dashboard")  //GETTING details from database after successfull login
+	@RequestMapping("/login-dashboard")  //GETTING details from database after successfull login
 	public ModelAndView CheckLogin(@RequestParam String id,@RequestParam String password)
 	{
 		boolean true_user;
@@ -59,14 +62,16 @@ public class LoginController
 		System.out.println("ID ===="+id);  //FOR TESTING
 		SqlParameterSource parameters = new MapSqlParameterSource().addValue("id", id);
 		
-		Faculty f1 = (Faculty) namedParameterJdbcTemplate.queryForObject(SELECT_SQL, parameters, new FacultyMapper());
+		faculty = (Faculty) namedParameterJdbcTemplate.queryForObject(SELECT_SQL, parameters, new FacultyMapper());
+		
+		PmsFormController.setFaculty(faculty);
 		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		true_user = passwordEncoder.matches(password,(f1.getPassword()));
+		true_user = passwordEncoder.matches(password,(faculty.getPassword()));
 		
 		if(true_user)
 		{	
-			mv = new ModelAndView("dashboard.jsp","obj",f1);
+			mv = new ModelAndView("dashboard.jsp","obj",faculty);        
 			return mv;
 		}
 		else
@@ -77,10 +82,5 @@ public class LoginController
 		}
 	}
 	
-	@RequestMapping("/pmsform")
-	public String pms()
-	{
-		return "pmsform.jsp";
-	}
 }
 

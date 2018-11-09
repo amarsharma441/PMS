@@ -12,14 +12,18 @@ import org.springframework.web.servlet.ModelAndView;
 import models.Faculty;
 
 
+
 @Controller
 public class SignUpController
 {
 	private String INSERT_SQL = "INSERT INTO facultydetails(id,name,designation,department,qualifications,dob,doj,appraiser_name,password) VALUES(:id,:name,:designation,:department,:qualifications,:dob,:doj,:appraiser_name,:password)";
-	
+
+	private Faculty faculty;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	//private  PmsFormController pmsformcontroller = new PmsFormController();
 	
 	@RequestMapping("/signup")   //Mapping to open Signup page (/signup)
 	public String SignUpPage()
@@ -29,7 +33,7 @@ public class SignUpController
 	
 	
 	
-	@RequestMapping("/signupsubmit")  //Inserting details in database after signup  
+	@RequestMapping("/signup-dashboard")  //Inserting details in database after signup  
 	public ModelAndView insertSignUp(Faculty faculty)
 	{
 		byte ROW_AFFECTED=0; 
@@ -55,8 +59,12 @@ public class SignUpController
 			ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
 			System.out.println("ROW AFFECTED = === = "+ROW_AFFECTED );			//TESTING
 			System.out.println("================INSERTION SUCCESSFULL");
+			
+			this.faculty = faculty;
+			
 			if(ROW_AFFECTED >0)
 			{
+				 PmsFormController.setFaculty(faculty);
 				 mv = new ModelAndView("dashboard.jsp","obj",faculty);   //USE OBJ IN dashboard.jsp TO DISPLAY DETAILS
 				 return mv;
 			}
@@ -71,4 +79,5 @@ public class SignUpController
 		}
 		return mv;
 	}
+	
 }

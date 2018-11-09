@@ -20,13 +20,13 @@
 <form action="/setweight">
 <img src="weight_table.jpg"/><br>
 <label class="label" for="branch">academic_weight</label>
-<input type="text" name="academic_weight" required><br>
+<input type="text" name="academics_weight" required><br>
 <label class="label" for="branch">research_weight</label>
 <input type="text" name="research_weight" required><br>
 <label class="label" for="branch">administration_weight</label>
 <input type="text" name="administration_weight" required><br>
 <input type="submit">
-<form>
+</form>
 </div>
 
 <div>

@@ -58,7 +58,7 @@
         <h2 class="heade ">LOGIN</h2>
 
 
-        <form class="form-horizontal" action="dashboard" method="post">
+        <form class="form-horizontal" action="login-dashboard" method="post">
             	<div class="form-group ">
             	    <label class="control-label">Employee ID:</label>
             	    <input type="text" name="id" maxlength="8" />

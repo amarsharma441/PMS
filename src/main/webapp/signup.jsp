@@ -56,7 +56,7 @@
 	<h2 class="heade ">Sign Up</h2>
         <div class="input-form" >
         <br/>
-        <form class="form-horizontal" action="signupsubmit" method="post">
+        <form class="form-horizontal" action="signup-dashboard" method="post">
             	<div class="form-group form-group-lg">
             	    <label class="control-label col-sm-4">Employee ID:</label>
             	    <div class="col-sm-8"><input type="text" name="id" maxlength="8" size="30" /></div>
