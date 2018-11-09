@@ -116,6 +116,10 @@
 
 
 </div>
+<div>
+<h1>OPEN PMS PORTAL</h1>
+<a href="/pmsform" class="button">OPEN PMS PORTAL</a>
+</div>
  </body>
  <script type="text/javascript">
  	function myfunction()

@@ -50,7 +50,7 @@ public class LoginController
 		 }  
 	}  
 	
-	@RequestMapping("/loginsubmit")  //GETTING details from database after successfull login
+	@RequestMapping("/dashboard")  //GETTING details from database after successfull login
 	public ModelAndView CheckLogin(@RequestParam String id,@RequestParam String password)
 	{
 		boolean true_user;
@@ -75,6 +75,12 @@ public class LoginController
 			mv = new ModelAndView("login.jsp");
 			return mv;
 		}
+	}
+	
+	@RequestMapping("/pmsform")
+	public String pms()
+	{
+		return "pmsform.jsp";
 	}
 }
 
