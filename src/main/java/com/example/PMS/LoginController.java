@@ -3,6 +3,8 @@ package com.example.PMS;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,16 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.Faculty;
 
 @Controller
-public class LoginController
+public class LoginController extends Functions
 {
 	private String SELECT_SQL = "SELECT * FROM facultydetails WHERE id=:id";
-	
-	//private  PmsFormController pmsformcontroller = new PmsFormController();
 	
 	private Faculty faculty;
 	
@@ -29,11 +30,18 @@ public class LoginController
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	@RequestMapping("/login")   //Mapping to open LogIn page (/login)
-	public String LogInPage()
+	public ModelAndView LogInPage(HttpSession session)
 	{	
-		return "login.jsp";
+		if(isLoggedIn(session))
+		{
+			
+			return new ModelAndView("dashboard.jsp","obj",session.getAttribute("obj"));
+		}
+		else
+		{
+			return new ModelAndView("login.jsp");
+		}
 	}
-	
 	
 	public class FacultyMapper implements RowMapper 
 	{  
@@ -53,8 +61,10 @@ public class LoginController
 		 }  
 	}  
 	
+	
+	
 	@RequestMapping("/login-dashboard")  //GETTING details from database after successfull login
-	public ModelAndView CheckLogin(@RequestParam String id,@RequestParam String password)
+	public ModelAndView CheckLogin(@RequestParam String id,@RequestParam String password , HttpSession session)
 	{
 		boolean true_user;
 		ModelAndView mv =null;
@@ -64,13 +74,12 @@ public class LoginController
 		
 		faculty = (Faculty) namedParameterJdbcTemplate.queryForObject(SELECT_SQL, parameters, new FacultyMapper());
 		
-		PmsFormController.setFaculty(faculty);
-		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		true_user = passwordEncoder.matches(password,(faculty.getPassword()));
 		
 		if(true_user)
 		{	
+			AddInSession(faculty ,session);
 			mv = new ModelAndView("dashboard.jsp","obj",faculty);        
 			return mv;
 		}
@@ -82,5 +91,9 @@ public class LoginController
 		}
 	}
 	
+	private void  AddInSession(Faculty f ,HttpSession session)
+	{
+		session.setAttribute("obj" , f);
+	}
 }
 

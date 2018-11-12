@@ -1,5 +1,7 @@
 package com.example.PMS;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -7,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.Faculty;
@@ -14,27 +17,35 @@ import models.Faculty;
 
 
 @Controller
-public class SignUpController
+public class SignUpController extends Functions
 {
-	private String INSERT_SQL = "INSERT INTO facultydetails(id,name,designation,department,qualifications,dob,doj,appraiser_name,password) VALUES(:id,:name,:designation,:department,:qualifications,:dob,:doj,:appraiser_name,:password)";
-
-	private Faculty faculty;
+	private String INSERT_SQL = "INSERT INTO facultydetails(id,name,designation,department,qualifications,dob,doj,appraiser_name,password)"
+									+ " VALUES(:id,:name,:designation,:department,:qualifications,:dob,:doj,:appraiser_name,:password)";
+	
 	
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-	//private  PmsFormController pmsformcontroller = new PmsFormController();
 	
 	@RequestMapping("/signup")   //Mapping to open Signup page (/signup)
-	public String SignUpPage()
+	public ModelAndView SignUpPage(HttpSession session)
 	{	
-		return "signup.jsp";
+		if(isLoggedIn(session))
+		{
+			
+			return new ModelAndView("dashboard.jsp","obj",session.getAttribute("obj"));
+		}
+		else
+		{
+			return new ModelAndView("signup.jsp");
+		}
+		
 	}
 	
 	
 	
 	@RequestMapping("/signup-dashboard")  //Inserting details in database after signup  
-	public ModelAndView insertSignUp(Faculty faculty)
+	public ModelAndView insertSignUp(Faculty faculty , HttpSession session)
 	{
 		byte ROW_AFFECTED=0; 
 		ModelAndView mv=null;
@@ -60,11 +71,11 @@ public class SignUpController
 			System.out.println("ROW AFFECTED = === = "+ROW_AFFECTED );			//TESTING
 			System.out.println("================INSERTION SUCCESSFULL");
 			
-			this.faculty = faculty;
+
 			
 			if(ROW_AFFECTED >0)
 			{
-				 PmsFormController.setFaculty(faculty);
+				 AddInSession(faculty ,session);
 				 mv = new ModelAndView("dashboard.jsp","obj",faculty);   //USE OBJ IN dashboard.jsp TO DISPLAY DETAILS
 				 return mv;
 			}
@@ -80,4 +91,9 @@ public class SignUpController
 		return mv;
 	}
 	
+	
+	private void  AddInSession(Faculty f ,HttpSession session)
+	{
+		session.setAttribute("obj" ,f);
+	}
 }
