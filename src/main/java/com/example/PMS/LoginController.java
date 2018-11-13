@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.Faculty;
@@ -30,16 +29,16 @@ public class LoginController extends Functions
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	@RequestMapping("/login")   //Mapping to open LogIn page (/login)
-	public ModelAndView LogInPage(HttpSession session)
+	public String LogInPage(HttpSession session)
 	{	
 		if(isLoggedIn(session))
 		{
 			
-			return new ModelAndView("dashboard.jsp","obj",session.getAttribute("obj"));
+			return "redirect:dashboard";
 		}
 		else
 		{
-			return new ModelAndView("login.jsp");
+			return "login.jsp";
 		}
 	}
 	
@@ -64,30 +63,51 @@ public class LoginController extends Functions
 	
 	
 	@RequestMapping("/login-dashboard")  //GETTING details from database after successfull login
-	public ModelAndView CheckLogin(@RequestParam String id,@RequestParam String password , HttpSession session)
+	public String CheckLogin(@RequestParam String id,@RequestParam String password , HttpSession session)
 	{
+		
 		boolean true_user;
 		ModelAndView mv =null;
 		
-		System.out.println("ID ===="+id);  //FOR TESTING
-		SqlParameterSource parameters = new MapSqlParameterSource().addValue("id", id);
+		if(!(isLoggedIn(session)))
+		{
+			System.out.println("ID ===="+id);  //FOR TESTING
+			SqlParameterSource parameters = new MapSqlParameterSource().addValue("id", id);
+			
+			faculty = (Faculty) namedParameterJdbcTemplate.queryForObject(SELECT_SQL, parameters, new FacultyMapper());
 		
-		faculty = (Faculty) namedParameterJdbcTemplate.queryForObject(SELECT_SQL, parameters, new FacultyMapper());
-		
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		true_user = passwordEncoder.matches(password,(faculty.getPassword()));
-		
-		if(true_user)
-		{	
-			AddInSession(faculty ,session);
-			mv = new ModelAndView("dashboard.jsp","obj",faculty);        
-			return mv;
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			true_user = passwordEncoder.matches(password,(faculty.getPassword()));
+			
+			if(true_user)
+			{	
+				AddInSession(faculty ,session);
+				return "redirect:dashboard";
+			}
+			else
+			{
+				System.out.println("========WRONG PASSWORD");
+				return "redirect:login";
+			}
 		}
 		else
 		{
-			System.out.println("========WRONG PASSWORD");
-			mv = new ModelAndView("login.jsp");
-			return mv;
+			System.out.println("========ALREADY LOGGED IN");
+			return "redirect:dashboard";
+		}
+	}
+	
+	@RequestMapping("/dashboard")   //Mapping to open LogIn page (/login)
+	public ModelAndView dashboard(HttpSession session)
+	{	
+		if(isLoggedIn(session))
+		{
+			
+			return new ModelAndView("dashboard.jsp","obj",session.getAttribute("obj"));
+		}
+		else
+		{
+			return new ModelAndView("login.jsp");
 		}
 	}
 	

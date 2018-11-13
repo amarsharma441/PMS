@@ -13,6 +13,7 @@ public class LogoutController
 	public String Logout(HttpSession session)
 	{
 		session.invalidate();
+		System.out.println("LOGOUT SUCCESSFULL");
 		return "redirect:login";
 	}
 

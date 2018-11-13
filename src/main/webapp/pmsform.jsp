@@ -3,6 +3,7 @@
 <head>
     <title>Performance Managment System</title>
 </head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <body>
 <div style="clear:left;background:darkblue; width:12%;"><p>2018-19</p></div>
@@ -32,15 +33,45 @@
 <div>
 <h1>UPDATE</h1>
     
-<form action="/table">
+<form action="/selectcriteria">
   <select name="tablename">
-    <option value="ACADEMICS and ACADEMIC ADMINISTRATION DETAILS">ACADEMICS and ACADEMIC ADMINISTRATION DETAILS</option>
+    <option value="Academics and Academic Administration">Academics and Academic Administration</option>
     <option value="Research and Consultancy">Research and Consultancy</option>
     <option value="Administration">Administration</option>
   </select>
   <br><br>
   <input type="submit">
 </form>
+</div>
+
+<div> 
+	<c:if test ="${sessionScope.trm != null}">
+	<table>
+ 	 <tr>
+    	<th>S.No.</th>
+    	<th>Parameters</th>
+    	<th>Maximum Points</th>
+    	<th>Expected Points</th>
+    	<th>Points Earned</th>
+    	<th>Comment</th>
+    	<th>Proof</th>
+  	 </tr>
+	<c:forEach items="${trm}" var="t">    
+    	<tr>
+    		<td>${t.getRow_id()}</td>
+    		<td>${t.getParameter()}</td>
+    		<td>${t.getMaximum_points()}</td>
+    		<td>0</td>
+    		<td>0</td>
+    		<td>null</td>
+    		<td>null</td>
+ 		 </tr>
+	</c:forEach>
+	
+	</table>
+	
+	</c:if>
+
 </div>
 </body>
 

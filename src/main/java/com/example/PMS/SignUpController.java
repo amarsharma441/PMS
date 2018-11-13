@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.Faculty;
@@ -28,16 +27,16 @@ public class SignUpController extends Functions
 	
 	
 	@RequestMapping("/signup")   //Mapping to open Signup page (/signup)
-	public ModelAndView SignUpPage(HttpSession session)
+	public String SignUpPage(HttpSession session)
 	{	
 		if(isLoggedIn(session))
 		{
 			
-			return new ModelAndView("dashboard.jsp","obj",session.getAttribute("obj"));
+			return "redirect:dashboard";
 		}
 		else
 		{
-			return new ModelAndView("signup.jsp");
+			return "signup.jsp";
 		}
 		
 	}
@@ -45,18 +44,19 @@ public class SignUpController extends Functions
 	
 	
 	@RequestMapping("/signup-dashboard")  //Inserting details in database after signup  
-	public ModelAndView insertSignUp(Faculty faculty , HttpSession session)
+	public String insertSignUp(Faculty faculty , HttpSession session)
 	{
 		byte ROW_AFFECTED=0; 
 		ModelAndView mv=null;
 		String hashedPassword;
-		
-		if((faculty.getPassword()).equals(faculty.getConpassword()))
+		if(!isLoggedIn(session))
 		{
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			hashedPassword = passwordEncoder.encode((faculty.getPassword()));
+			if((faculty.getPassword()).equals(faculty.getConpassword()))
+			{
+				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+				hashedPassword = passwordEncoder.encode((faculty.getPassword()));
 			
-			SqlParameterSource parameters = new MapSqlParameterSource()
+				SqlParameterSource parameters = new MapSqlParameterSource()
 																.addValue("id", faculty.getId())
 																.addValue("name", faculty.getName())
 																.addValue("designation", faculty.getDesignation())
@@ -67,28 +67,30 @@ public class SignUpController extends Functions
 																.addValue("appraiser_name", faculty.getAppraiser_name())
 		                                                        .addValue("password", hashedPassword);
 															
-			ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
-			System.out.println("ROW AFFECTED = === = "+ROW_AFFECTED );			//TESTING
-			System.out.println("================INSERTION SUCCESSFULL");
+				ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
+				System.out.println("ROW AFFECTED = === = "+ROW_AFFECTED );			//TESTING
+				
 			
 
 			
-			if(ROW_AFFECTED >0)
-			{
-				 AddInSession(faculty ,session);
-				 mv = new ModelAndView("dashboard.jsp","obj",faculty);   //USE OBJ IN dashboard.jsp TO DISPLAY DETAILS
-				 return mv;
+				if(ROW_AFFECTED >0)
+				{
+					AddInSession(faculty ,session);
+					System.out.println("================INSERTION SUCCESSFULL");		//USE OBJ IN dashboard.jsp TO DISPLAY DETAILS
+				}
+				return "redirect:dashboard";
 			}
-			
+		
+			else
+			{
+				System.out.println("=================PASSWORD MISMATCH");
+				return "redirect:signup";  //RETURNING TO THE signup page if Password MISmatch
+			}
 		}
 		else
 		{
-			System.out.println("=================PASSWORD MISMATCH");
-            mv = new ModelAndView("signup.jsp");   //RETURNING TO THE signup page if Password MISmatch
-			return mv;
-			
+			return "redirect:dashboard";
 		}
-		return mv;
 	}
 	
 	
