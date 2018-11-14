@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Performance Managment System</title>
+     <title>Performance Managment System</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -12,7 +12,31 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
     <style>
-    body{
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+body{
         background-color:rgb(235, 235, 224);
         font-family: 'ABeeZee';
 
@@ -40,9 +64,13 @@
      .bloackdis{
      	display: block;
      }
-    </style>
+</style>
+   
 </head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <body>
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -55,7 +83,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="\dashboard">Home</a></li>
 
         <li><a href="#">Settings </a></li>
         <li><a href="/logout">Logout</a></li>
@@ -64,14 +92,42 @@
     </div>
   </div>
 </nav>
-<div class="container-fluid">
-	<div class="welcome_mes text-center">
-		<h2>Welcome ${obj.name}</h2>
-	</div>
+
+<div> 
+	<c:if test ="${sessionScope.trm != null}">
 	
-<div>
-<h1>OPEN PMS PORTAL</h1>
-<a href="/pmsform" class="button">OPEN PMS PORTAL</a>
+	<form action="/updatepoints">
+	
+	<table id="customers">
+ 	 <tr>
+    	<th>S.No.</th>
+    	<th>Parameters</th>
+    	<th>Maximum Points</th>
+    	<th>Expected Points</th>
+    	<th>Points Earned</th>
+    	<th>Comment</th>
+    	<th>Proof</th>
+  	 </tr>
+  	 
+	<c:forEach items="${trm}" var="t">    
+    	<tr>
+    		<td>${t.getRow_id()}</td>
+    		<td>${t.getParameter()}</td>
+    		<td>${t.getMaximum_points()}</td>
+    		<td><input type="text" name="ep_row${t.getRow_id()}"/></td>
+    		<td>0</td>
+    		<td><input type="text" name="comment_row${t.getRow_id()}"/></td>
+    		<td><input type="file" name="file_row${t.getRow_id()}" /></td>
+ 		 </tr>
+	</c:forEach>
+	
+	</table>
+	<br><br>
+	<input type="submit" value="UPDATE">
+	</form>
+	</c:if>
+
 </div>
- </body>
+</body>
+
 </html>

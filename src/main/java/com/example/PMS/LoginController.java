@@ -67,7 +67,6 @@ public class LoginController extends Functions
 	{
 		
 		boolean true_user;
-		ModelAndView mv =null;
 		
 		if(!(isLoggedIn(session)))
 		{
