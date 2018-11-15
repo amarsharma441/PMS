@@ -18,60 +18,60 @@
 
     }
      .welcome_mes{
-     	color:black;
-     	margin: 5px;
+      color:black;
+      margin: 5px;
+
      }
      .block{
-     	width: auto;
-     	cursor: pointer;
-     	padding: 30px;
-     	text-align: center;
+      width: auto;
+      cursor: pointer;
+      padding: 30px;
+      text-align: center;
 
      }
      .block-sm{
-     	width: auto;
-     	cursor: pointer;
-     	padding-top: 30px;
-     	text-align: center;
+      width: auto;
+      cursor: pointer;
+      padding-top: 30px;
+      text-align: center;
      }
      .block1 ,.final{
-     	display: none;
+      display: none;
      }
      .bloackdis{
-     	display: block;
+      display: block;
+     }
+     .btn{
+      margin-top: 50px;
      }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Permformance Managment System</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="#">Home</a></li>
+<div class="container-fluid">
+<div class="navbar-header" >
+  <span class="glyphicon glyphicon-tasks btn-lg"></span>
+</div>
 
-        <li><a href="#">Settings </a></li>
-        <li><a href="/logout">Logout</a></li>
-      </ul>
-
-    </div>
-  </div>
+  <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a href="#"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
+      </li>
+    </ul>
+</div>
 </nav>
 <div class="container-fluid">
-	<div class="welcome_mes text-center">
-		<h2>Welcome ${obj.name}</h2>
-	</div>
-	
-<div>
-<h1>OPEN PMS PORTAL</h1>
-<a href="/pmsform" class="button">OPEN PMS PORTAL</a>
-</div>
- </body>
+  <div class="welcome_mes text-center">
+    <h2>Welcome ${obj.name} to PMS</h2>
+  </div>
+
+
+  <center>
+<button class="btn btn-primary btn-lg" href="/pmsform">Procced to Portal</button>
+
+</center>
+
+ </div>
+
+</body>
 </html>

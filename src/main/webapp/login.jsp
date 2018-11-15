@@ -15,7 +15,7 @@
     <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
     <style>
     body{
-        background-color:rgb(235, 235, 224);
+        background-color:white;
         font-family: 'ABeeZee';
 
     }
@@ -24,15 +24,15 @@
             border-radius :3px;
             color:black;
             position:relative;
-
+            padding:20px;
             margin: auto;
-			min-width: 250px;
-			width:400px;
-			  background-color:rgb(230, 230, 230);
+      min-width: 250px;
+      width:400px;
+        background-color:rgb(230, 230, 230);
 
 
         }
-        .jumbotron{background-color:rgb(235, 235, 224);}
+
         .heade{
             margin-top:10%:
             color:black;
@@ -40,6 +40,9 @@
         .logo{
             background-color:white;
 
+        }
+        .jumbotron{
+          background-color: white;
         }
     </style>
 
@@ -59,13 +62,31 @@
 
 
         <form class="form-horizontal" action="login-dashboard" method="post">
-            	<div class="form-group ">
-            	    <label class="control-label">Employee ID:</label>
-            	    <input type="text" name="id" maxlength="8" />
-            	</div>
+              <div class="form-group ">
+                  <div class="row">
+                       <div class="col-lg-6">
+                            <label class="control-label">Employee ID:</label>
+                      </div>
+                        <div class="col-lg-6">
+                            <input type="text" name="id" maxlength="8" />
+                         </div>
+                  </div>
+
+              </div>
                 <div class="form-group ">
-                    <label class="control-label">Password : </label>
-                    <input type="password" name="password"/>
+
+                  <div class="row">
+                       <div class="col-lg-6">
+                       <label class="control-label">Password : </label>
+                      </div>
+                        <div class="col-lg-6">
+                            <input type="password" name="password"/>
+                         </div>
+                  </div>
+
+
+
+
                  </div>
                 <input class="btn btn-primary" type="submit"/>
          </form>
