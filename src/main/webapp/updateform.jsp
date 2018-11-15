@@ -37,96 +37,94 @@
 
 
 body{
-        background-color:rgb(235, 235, 224);
         font-family: 'ABeeZee';
 
     }
      .welcome_mes{
-     	color:black;
-     	margin: 5px;
+      color:black;
+      margin: 5px;
      }
      .block{
-     	width: auto;
-     	cursor: pointer;
-     	padding: 30px;
-     	text-align: center;
+      width: auto;
+      cursor: pointer;
+      padding: 30px;
+      text-align: center;
 
      }
      .block-sm{
-     	width: auto;
-     	cursor: pointer;
-     	padding-top: 30px;
-     	text-align: center;
+      width: auto;
+      cursor: pointer;
+      padding-top: 30px;
+      text-align: center;
      }
      .block1 ,.final{
-     	display: none;
+      display: none;
      }
      .bloackdis{
-     	display: block;
+      display: block;
+     }
+     .finalb{
+      align-self: center;
+      margin-left: 44%;
      }
 </style>
-   
+
 </head>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <body>
 
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Permformance Managment System</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="\dashboard">Home</a></li>
+<div class="container-fluid">
+<div class="navbar-header" >
+  <span class="glyphicon glyphicon-tasks btn-lg"></span>
+</div>
 
-        <li><a href="#">Settings </a></li>
-        <li><a href="/logout">Logout</a></li>
-      </ul>
-
-    </div>
-  </div>
+  <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a href="#"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
+      </li>
+    </ul>
+</div>
 </nav>
+<div class="container-fluid">
+<div class="text-center">
+  <h3>Performance Managment System</h3>
+</div>
+<div class="conatiner">
+  <c:if test ="${sessionScope.trm != null}">
 
-<div> 
-	<c:if test ="${sessionScope.trm != null}">
-	
-	<form action="/updatepoints">
-	
-	<table id="customers">
- 	 <tr>
-    	<th>S.No.</th>
-    	<th>Parameters</th>
-    	<th>Maximum Points</th>
-    	<th>Expected Points</th>
-    	<th>Points Earned</th>
-    	<th>Comment</th>
-    	<th>Proof</th>
-  	 </tr>
-  	 
-	<c:forEach items="${trm}" var="t">    
-    	<tr>
-    		<td>${t.getRow_id()}</td>
-    		<td>${t.getParameter()}</td>
-    		<td>${t.getMaximum_points()}</td>
-    		<td><input type="text" name="ep_row${t.getRow_id()}"/></td>
-    		<td>0</td>
-    		<td><input type="text" name="comment_row${t.getRow_id()}"/></td>
-    		<td><input type="file" name="file_row${t.getRow_id()}" /></td>
- 		 </tr>
-	</c:forEach>
-	
-	</table>
-	<br><br>
-	<input type="submit" value="UPDATE">
-	</form>
-	</c:if>
+  <form action="/updatepoints">
 
+  <table id="customers">
+   <tr>
+      <th>S.No.</th>
+      <th>Parameters</th>
+      <th>Maximum Points</th>
+      <th>Expected Points</th>
+      <th>Points Earned</th>
+      <th>Comment</th>
+      <th>Proof</th>
+     </tr>
+
+  <c:forEach items="${trm}" var="t">
+      <tr>
+        <td>${t.getRow_id()}</td>
+        <td>${t.getParameter()}</td>
+        <td>${t.getMaximum_points()}</td>
+        <td><input type="text" name="ep_row${t.getRow_id()}"/></td>
+        <td>0</td>
+        <td><input type="text" name="comment_row${t.getRow_id()}"/></td>
+        <td><input type="file" name="file_row${t.getRow_id()}" /></td>
+     </tr>
+  </c:forEach>
+
+  </table>
+  <br><br>
+  <input type="submit" class="btn btn-lg btn-primary finalb" value="UPDATE">
+  </form>
+  </c:if>
+</div>
 </div>
 </body>
 
