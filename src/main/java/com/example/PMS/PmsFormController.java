@@ -209,7 +209,7 @@ public class PmsFormController extends Functions
 					
 					
 					INSERT_SQL = "INSERT INTO facultydetails(expected_points,comment)" 
-				                  + "VALUES("+request.getParameter("ep_row"+(i+1))+","+request.getParameter("comment_row"+(i+1))+")"
+				                  + "VALUES('"+request.getParameter("ep_row"+(i+1))+ "','" +request.getParameter("comment_row"+(i+1))+ "')"
 				                  + " WHERE id=:id AND year_id=:year_id AND table_id=:table_id AND row_id=:row_id";								
 				    ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
 				}

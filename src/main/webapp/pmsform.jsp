@@ -61,7 +61,7 @@ body{
 
 	<ul class="nav navbar-nav navbar-right">
       <li>
-      	<a href="#"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
+      	<a href="/logout"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
       </li>
     </ul>
 </div>

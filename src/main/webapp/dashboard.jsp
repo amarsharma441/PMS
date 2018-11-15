@@ -55,7 +55,7 @@
 
   <ul class="nav navbar-nav navbar-right">
       <li>
-        <a href="#"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
+        <a href="/logout"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
       </li>
     </ul>
 </div>
@@ -67,7 +67,7 @@
 
 
   <center>
-<button class="btn btn-primary btn-lg" href="/pmsform">Procced to Portal</button>
+<button class="btn btn-primary btn-lg" onclick="window.location.href='\pmsform'">Procced to Portal</button>
 
 </center>
 

@@ -82,7 +82,7 @@ body{
 
   <ul class="nav navbar-nav navbar-right">
       <li>
-        <a href="#"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
+        <a href="/logout"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
       </li>
     </ul>
 </div>
@@ -112,9 +112,9 @@ body{
         <td>${t.getRow_id()}</td>
         <td>${t.getParameter()}</td>
         <td>${t.getMaximum_points()}</td>
-        <td><input type="text" name="ep_row${t.getRow_id()}"/></td>
+        <td><input type="text" name="ep_row${t.getRow_id()}" value="${fprm.get(t.getRow_id()-1).getExpected_points()}"/></td>
         <td>0</td>
-        <td><input type="text" name="comment_row${t.getRow_id()}"/></td>
+        <td><input type="text" name="comment_row${t.getRow_id()}"  value="${fprm.get(t.getRow_id()-1).getComment()}"/></td>
         <td><input type="file" name="file_row${t.getRow_id()}" /></td>
      </tr>
   </c:forEach>
