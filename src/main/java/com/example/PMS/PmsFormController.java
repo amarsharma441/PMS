@@ -198,26 +198,21 @@ public class PmsFormController extends Functions
 				String INSERT_SQL;
 				
 				int ROW_AFFECTED;
-//				for(int i=0 ;i<fprm.size() ;i++ )
-//				{
-//				
-//					parameters = new MapSqlParameterSource()
-//											 						.addValue("id", faculty.getId())
-//																	.addValue("name", faculty.getName())
-//																	.addValue("designation", faculty.getDesignation())
-//																	.addValue("department", faculty.getDepartment())
-//																	.addValue("qualifications", faculty.getQualifications())
-//																	.addValue("dob", faculty.getDob())
-//																	.addValue("doj", faculty.getDoj())
-//																	.addValue("appraiser_name", faculty.getAppraiser_name())
-//			                                                        .addValue("password", hashedPassword);
-//					
-//					
-//					INSERT_SQL = "INSERT INTO facultydetails(expected_points,comment) " 
-//				                  + "VALUES("+request.getParameter("ep_row"+i+1)+","+request.getParameter("comment_row"+i+1)+")"
-//				                  + " WHERE id=:"+faculty.getId()+" AND ";								
-//				    ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
-//				}
+				for(int i=0 ;i<fprm.size() ;i++ )
+				{
+				
+					parameters = new MapSqlParameterSource()
+											 						.addValue("id", faculty.getId())
+																	.addValue("year_id", year_id)
+																	.addValue("table_id", table_id)
+																	.addValue("row_id", i+1);
+					
+					
+					INSERT_SQL = "INSERT INTO facultydetails(expected_points,comment)" 
+				                  + "VALUES("+request.getParameter("ep_row"+(i+1))+","+request.getParameter("comment_row"+(i+1))+")"
+				                  + " WHERE id=:id AND year_id=:year_id AND table_id=:table_id AND row_id=:row_id";								
+				    ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
+				}
 			}
 			else
 			{
