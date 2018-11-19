@@ -38,7 +38,7 @@
 
 body{
         font-family: 'ABeeZee';
-
+		background-color:rgb(235, 235, 224);
     }
      .welcome_mes{
       color:black;
@@ -67,10 +67,25 @@ body{
       align-self: center;
       margin-left: 44%;
      }
+     
+     .btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 7px 18px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+}
 </style>
 
 </head>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <body>
 
@@ -93,9 +108,8 @@ body{
 </div>
 <div class="conatiner">
   <c:if test ="${sessionScope.trm != null}">
-
-  <form action="/updatepoints">
-
+	
+  <form action="/updatepoints" method="post" enctype="multipart/form-data">
   <table id="customers">
    <tr>
       <th>S.No.</th>
@@ -115,7 +129,15 @@ body{
         <td><input type="text" name="ep_row${t.getRow_id()}" value="${fprm.get(t.getRow_id()-1).getExpected_points()}"/></td>
         <td>0</td>
         <td><input type="text" name="comment_row${t.getRow_id()}"  value="${fprm.get(t.getRow_id()-1).getComment()}"/></td>
-        <td><input type="file" name="file_row${t.getRow_id()}" /></td>
+        
+        	<c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) == 0}">
+        		<td><input type="file" name="files" /></td>
+        	</c:if>
+        	<c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) > 0}">
+        		<td>
+        		<button class="btn"><i class="fa fa-download"></i> Download</button>
+        			<button class="btn"><i class="fa fa-download"></i> Remove</button></td>
+       		</c:if>
      </tr>
   </c:forEach>
 

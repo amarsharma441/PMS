@@ -1,11 +1,14 @@
 package com.example.PMS;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.lang.String;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +22,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import models.Faculty;
 import models.FacultyPointsRowMap;
@@ -181,8 +186,10 @@ public class PmsFormController extends Functions
 	}
 	
 	@RequestMapping("/updatepoints")
-	public String update_points(HttpServletRequest request , HttpSession session) throws ServletException, IOException
-	{
+	public String update_points(@RequestParam("files") MultipartFile[] files,HttpServletRequest request , HttpSession session) throws ServletException, IOException
+	{		
+			String UPDATE_SQL;
+			String UPLOADED_FOLDER = "F://files//";
 			int table_id = (int)session.getAttribute("table_id");
 			int year_id =1;
 			faculty = (Faculty)session.getAttribute("obj");
@@ -196,28 +203,65 @@ public class PmsFormController extends Functions
 			{
 				List<FacultyPointsRowMap> fprm = (List<FacultyPointsRowMap>) session.getAttribute("fprm");
 				String INSERT_SQL;
-				
+				String filename=null;
 				int ROW_AFFECTED;
+				int j=0; 
+				SqlParameterSource namedParameters = new MapSqlParameterSource();
 				for(int i=0 ;i<fprm.size() ;i++ )
-				{
-				
-					parameters = new MapSqlParameterSource()
-											 						.addValue("id", faculty.getId())
-																	.addValue("year_id", year_id)
-																	.addValue("table_id", table_id)
-																	.addValue("row_id", i+1);
+				{	
+					if(!(fprm.get(i).getProof_filename().isEmpty()))
+					{
+						System.out.println("SSSSSSSSSSSSSSSSSSSSSS"+files.length);
+						System.out.println("111111111111111111111111111111111111"); 
+						filename = fprm.get(i).getProof_filename();
+						((MapSqlParameterSource) namedParameters).addValue("proof_filename",filename);
+					}
+					else if(!(files[j].getOriginalFilename().isEmpty()))
+					{
+						System.out.println("111111111111111111111111111111111111222"); 
+						try 
+							{
+								byte[] bytes = files[j].getBytes();
+								Path path = Paths.get(UPLOADED_FOLDER + files[j].getOriginalFilename());
+								Files.write(path, bytes);
+								filename =  files[j].getOriginalFilename();
+								((MapSqlParameterSource) namedParameters).addValue("proof_filename",filename);
+								j++;
+								System.out.println("FILE NAME  ===="+ filename);        ///TESTING
+							} 
+        
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
+					}
+					else
+					{
+						System.out.println("33333333333333333333333333333333333"); 
+						filename ="";
+						((MapSqlParameterSource) namedParameters).addValue("proof_filename",filename);
+						j++;
+					}
 					
 					
-					INSERT_SQL = "INSERT INTO facultydetails(expected_points,comment)" 
-				                  + "VALUES('"+request.getParameter("ep_row"+(i+1))+ "','" +request.getParameter("comment_row"+(i+1))+ "')"
-				                  + " WHERE id=:id AND year_id=:year_id AND table_id=:table_id AND row_id=:row_id";								
-				    ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
+					UPDATE_SQL ="UPDATE facultypoints SET expected_points=:expected_points ,comment=:comment,proof_filename=:proof_filename "
+							  + "WHERE id=:id AND year_id=:year_id AND table_id=:table_id AND row_id=:row_id";
+					((MapSqlParameterSource) namedParameters).addValue("expected_points",request.getParameter("ep_row"+(i+1)));
+					((MapSqlParameterSource) namedParameters).addValue("comment", request.getParameter("comment_row"+(i+1)));
+					((MapSqlParameterSource) namedParameters).addValue("id", faculty.getId());
+					((MapSqlParameterSource) namedParameters).addValue("year_id", year_id);
+					((MapSqlParameterSource) namedParameters).addValue("table_id", table_id);
+					((MapSqlParameterSource) namedParameters).addValue("row_id", i+1);
+					//((MapSqlParameterSource) namedParameters).addValue("proof_filename",filename);
+				    ROW_AFFECTED =(byte) namedParameterJdbcTemplate.update(UPDATE_SQL, namedParameters);
 				}
 			}
 			else
 			{
-				String INSERT_SQL="INSERT INTO facultypoints(id,year_id,table_id,row_id,expected_points,comment)"
-						+ " VALUES(:id,:year_id,:table_id,:row_id,:expected_points,:comment)";
+				String INSERT_SQL="INSERT INTO facultypoints(id,year_id,table_id,row_id,expected_points,comment,proof_filename)"
+						+ " VALUES(:id,:year_id,:table_id,:row_id,:expected_points,:comment,:proof_filename)";
+				
+				
 				System.out.println("ROWS  "+trm.size());
 				int ROW_AFFECTED=0;
 				float expected_points;
@@ -234,7 +278,24 @@ public class PmsFormController extends Functions
 															.addValue("table_id", table_id)
 															.addValue("row_id", i+1)
 															.addValue("expected_points", expected_points)
-															.addValue("comment", request.getParameter("comment_row"+(i+1)));
+															.addValue("comment", request.getParameter("comment_row"+(i+1)))
+															.addValue("proof_filename",files[i].getOriginalFilename());
+						try 
+				        {
+
+				            // Get the file and save it somewhere
+				            byte[] bytes = files[i].getBytes();
+				            Path path = Paths.get(UPLOADED_FOLDER + files[i].getOriginalFilename());
+				            Files.write(path, bytes);
+
+				            String filename =  files[i].getOriginalFilename();
+				            System.out.println("FILE NAME  ===="+ filename);        ///TESTING
+				        } 
+				        
+				        catch (IOException e)
+				        {
+				            e.printStackTrace();
+				        }
 													
 				    ROW_AFFECTED +=(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
 					}
@@ -247,8 +308,25 @@ public class PmsFormController extends Functions
 															.addValue("table_id", table_id)
 															.addValue("row_id", i+1)
 															.addValue("expected_points", expected_points)
-															.addValue("comment",  request.getParameter("comment_row"+(i+1)));
-													
+															.addValue("comment",  request.getParameter("comment_row"+(i+1)))
+															.addValue("proof_filename",files[i].getOriginalFilename());
+						try 
+				        {
+
+				            // Get the file and save it somewhere
+				            byte[] bytes = files[i].getBytes();
+				            Path path = Paths.get(UPLOADED_FOLDER + files[i].getOriginalFilename());
+				            Files.write(path, bytes);
+
+				            String filename =  files[i].getOriginalFilename();
+				            System.out.println("FILE NAME  ===="+ filename);        ///TESTING
+				        } 
+				        
+				        catch (IOException e)
+				        {
+				            e.printStackTrace();
+				        }
+						
 						ROW_AFFECTED +=(byte) namedParameterJdbcTemplate.update(INSERT_SQL, parameters);
 					}
 				}

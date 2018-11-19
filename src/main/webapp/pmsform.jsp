@@ -16,7 +16,7 @@
 body{
 
         font-family: 'ABeeZee';
-
+		background-color:rgb(235, 235, 224);
     }
      .welcome_mes{
      	color:black;
