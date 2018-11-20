@@ -135,8 +135,10 @@ body{
         	</c:if>
         	<c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) > 0}">
         		<td>
-        		<button class="btn"><i class="fa fa-download"></i> Download</button>
-        			<button class="btn"><i class="fa fa-download"></i> Remove</button></td>
+        		<form action="/download" method="get">
+				<button class="btn" name="filename" type="submit" value="${fprm.get(t.getRow_id()-1).getProof_filename()}">${fprm.get(t.getRow_id()-1).getProof_filename()}</button>
+				</form>
+        		</td>
        		</c:if>
      </tr>
   </c:forEach>

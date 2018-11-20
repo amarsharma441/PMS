@@ -1,6 +1,10 @@
 package com.example.PMS;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,8 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
+import java.net.URLConnection;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +28,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -210,15 +218,12 @@ public class PmsFormController extends Functions
 				for(int i=0 ;i<fprm.size() ;i++ )
 				{	
 					if(!(fprm.get(i).getProof_filename().isEmpty()))
-					{
-						System.out.println("SSSSSSSSSSSSSSSSSSSSSS"+files.length);
-						System.out.println("111111111111111111111111111111111111"); 
+					{ 
 						filename = fprm.get(i).getProof_filename();
 						((MapSqlParameterSource) namedParameters).addValue("proof_filename",filename);
 					}
 					else if(!(files[j].getOriginalFilename().isEmpty()))
 					{
-						System.out.println("111111111111111111111111111111111111222"); 
 						try 
 							{
 								byte[] bytes = files[j].getBytes();
@@ -237,7 +242,6 @@ public class PmsFormController extends Functions
 					}
 					else
 					{
-						System.out.println("33333333333333333333333333333333333"); 
 						filename ="";
 						((MapSqlParameterSource) namedParameters).addValue("proof_filename",filename);
 						j++;
@@ -335,6 +339,53 @@ public class PmsFormController extends Functions
 			 }
 			return "redirect:pmsform";
 		}
+	
+	
+	private static final String EXTERNAL_FILE_PATH = "C:/fileDownloadExample/";
+
+	@RequestMapping("/download")
+	public void downloadPDFResource(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException 
+	{
+		String UPLOADED_FOLDER = "F:/files/";
+		File file = new File(UPLOADED_FOLDER + request.getParameter("filename"));
+		System.out.println("FFFFFFFFFFFFFFFFFFFFFFFF"+request.getParameter("filename"));
+		if (file.exists()) {
+
+			//get the mimetype
+			String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+			if (mimeType == null) {
+				//unknown mimetype so set the mimetype to application/octet-stream
+				mimeType = "application/octet-stream";
+			}
+
+			response.setContentType(mimeType);
+
+			/**
+			 * In a regular HTTP response, the Content-Disposition response header is a
+			 * header indicating if the content is expected to be displayed inline in the
+			 * browser, that is, as a Web page or as part of a Web page, or as an
+			 * attachment, that is downloaded and saved locally.
+			 * 
+			 */
+
+			/**
+			 * Here we have mentioned it to show inline
+			 */
+			response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+
+			 //Here we have mentioned it to show as attachment
+			 //response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
+
+			response.setContentLength((int) file.length());
+
+			InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+
+		}
+	}
+
+	
 	
 	public boolean isPointsExist(HttpSession session)
 	{
