@@ -125,7 +125,6 @@ public class PmsFormController extends Functions
 			
 			System.out.println(request.getParameter("tablename"));
 			
-			
 			if(request.getParameter("tablename").equals("Academics and Academic Administration"))
 			{
 				trm= namedParameterJdbcTemplate.query(SELECT_SQL_1,
@@ -143,6 +142,10 @@ public class PmsFormController extends Functions
 					        }
 						});
 				table_id = 1;
+				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
+				session.removeAttribute("table_id");
+				System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbb");
+				session.setAttribute("table_id",table_id);
 			}
 			else if(request.getParameter("tablename").equals("Research and Consultancy"))
 			{
@@ -161,6 +164,8 @@ public class PmsFormController extends Functions
 					        }
 						});
 				table_id = 2;
+				session.removeAttribute("table_id");
+				session.setAttribute("table_id",table_id);
 			}
 			else if(request.getParameter("tablename").equals("Administration"))
 			{
@@ -179,15 +184,16 @@ public class PmsFormController extends Functions
 			        }
 				});
 				table_id = 3;
+				session.removeAttribute("table_id");
+				session.setAttribute("table_id",table_id);
 			}
-			session.setAttribute("table_id",table_id);
-			System.out.println("TABLE  ID ======"+table_id);
+			
+			System.out.println("TABLE  ID ======"+session.getAttribute("table_id"));
 			//**************************************************************************************************************************
 			boolean points = isPointsExist(session);
 			System.out.println("POINT EXIST =====" + points);
 			
 			//**************************************************************************************************************************			
-			
 			session.setAttribute("trm",trm);
 			
 			return "redirect:updateform";  //WILL CHANGE IT LATER		      
