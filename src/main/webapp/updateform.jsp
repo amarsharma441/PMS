@@ -137,6 +137,8 @@ body{
         		<td>
         		<form action="/download" method="get">
 				<button class="btn" name="filename" type="submit" value="${fprm.get(t.getRow_id()-1).getProof_filename()}">${fprm.get(t.getRow_id()-1).getProof_filename()}</button>
+			<!--	</form>  -->
+			<!--	<form action="/removefile" method="get">  -->
 				<button class="btn">Remove</button>
 				</form>
         		</td>

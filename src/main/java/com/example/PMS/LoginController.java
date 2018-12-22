@@ -86,6 +86,7 @@ public class LoginController extends Functions
 			else
 			{
 				System.out.println("========WRONG PASSWORD");
+				session.setAttribute("true_user", true_user);
 				return "redirect:login";
 			}
 		}

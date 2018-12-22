@@ -47,6 +47,7 @@
     </style>
 
 </head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <body>
 <div class="logo">
     <img src="mulogo.png"/>
@@ -88,7 +89,11 @@
 
 
                  </div>
+                 <c:if test ="${sessionScope.true_user == false}">
+                 	<h5> Wrong Password <br> Please try again</h5>
+                 </c:if>
                 <input class="btn btn-primary" type="submit"/>
+                
          </form>
          </div>
 
