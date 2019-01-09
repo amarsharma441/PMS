@@ -61,7 +61,6 @@ public class LoginController extends Functions
 	}  
 	
 	
-	
 	@RequestMapping("/login-dashboard")  //GETTING details from database after successfull login
 	public String CheckLogin(@RequestParam String id,@RequestParam String password , HttpSession session)
 	{
@@ -80,7 +79,9 @@ public class LoginController extends Functions
 			
 			if(true_user)
 			{	
+				
 				AddInSession(faculty ,session);
+				noofyears(session);
 				return "redirect:dashboard";
 			}
 			else

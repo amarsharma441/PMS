@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -43,7 +44,7 @@ import models.WeightDetails;
 public class PmsFormController extends Functions
 {
 	
-	private  int y_id =1;       //Will change it later
+	int y_id;      
 	
 	private String INSERT_SQL = "INSERT INTO weightdetails(id,year_id,academics_weight,research_weight,administration_weight)"
 								+ "VALUES(:id,:year_id,:academics_weight,:research_weight,:administration_weight)";
@@ -57,13 +58,38 @@ public class PmsFormController extends Functions
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	
 	@RequestMapping("/pmsform")
-	public String pmsform(HttpSession session)
+	public String pmsform(HttpSession session,HttpServletRequest request )
 	{	
-		if(isLoggedIn(session))
-			return "pmsform.jsp";
-		else
-			return "redirect:login";
+		faculty = (Faculty)session.getAttribute("obj");
+		SqlParameterSource namedParameters = new MapSqlParameterSource();
+		
+		int noofyears = (int) noofyears(session);
+		try
+		{
+			y_id =(int) Integer.parseInt(request.getParameter("year_id"));
+		}
+		catch(NumberFormatException n)
+		{
+			System.out.println("YEAR IIIIIIIIIDDDDDDDDD======="+ y_id + n);
+		}
+		finally
+		{
+			if(noofyears < y_id)
+			{
+				String UPDATE_SQL ="UPDATE noofyears SET years=:years WHERE id=:id";
+				((MapSqlParameterSource) namedParameters).addValue("id", faculty.getId());
+				((MapSqlParameterSource) namedParameters).addValue("years", y_id);
+				namedParameterJdbcTemplate.update(UPDATE_SQL,namedParameters);
+				session.setAttribute("years",y_id);
+			}
+		
+			if(isLoggedIn(session))
+				return "pmsform.jsp";
+			else
+				return "redirect:login";
+		}
 	}
 	
 	
@@ -205,7 +231,7 @@ public class PmsFormController extends Functions
 			String UPDATE_SQL;
 			String UPLOADED_FOLDER = "F://files//";
 			int table_id = (int)session.getAttribute("table_id");
-			int year_id =1;
+			//int year_id =1;
 			faculty = (Faculty)session.getAttribute("obj");
 			System.out.println("Object -ID IN SESSION ===" + faculty.getId());
 			SqlParameterSource parameters;
@@ -259,7 +285,7 @@ public class PmsFormController extends Functions
 					((MapSqlParameterSource) namedParameters).addValue("expected_points",request.getParameter("ep_row"+(i+1)));
 					((MapSqlParameterSource) namedParameters).addValue("comment", request.getParameter("comment_row"+(i+1)));
 					((MapSqlParameterSource) namedParameters).addValue("id", faculty.getId());
-					((MapSqlParameterSource) namedParameters).addValue("year_id", year_id);
+					((MapSqlParameterSource) namedParameters).addValue("year_id", y_id);
 					((MapSqlParameterSource) namedParameters).addValue("table_id", table_id);
 					((MapSqlParameterSource) namedParameters).addValue("row_id", i+1);
 					//((MapSqlParameterSource) namedParameters).addValue("proof_filename",filename);
@@ -284,7 +310,7 @@ public class PmsFormController extends Functions
 						System.out.println(expected_points);
 						parameters = new MapSqlParameterSource()
 											 				.addValue("id", faculty.getId())
-															.addValue("year_id", year_id)
+															.addValue("year_id", y_id)
 															.addValue("table_id", table_id)
 															.addValue("row_id", i+1)
 															.addValue("expected_points", expected_points)
@@ -314,7 +340,7 @@ public class PmsFormController extends Functions
 						expected_points = 0;
 						parameters = new MapSqlParameterSource()
 											 				.addValue("id", faculty.getId())
-															.addValue("year_id", year_id)
+															.addValue("year_id", y_id)
 															.addValue("table_id", table_id)
 															.addValue("row_id", i+1)
 															.addValue("expected_points", expected_points)
@@ -346,8 +372,6 @@ public class PmsFormController extends Functions
 			return "redirect:pmsform";
 		}
 	
-	
-	private static final String EXTERNAL_FILE_PATH = "C:/fileDownloadExample/";
 
 	@RequestMapping("/download")
 	public void downloadPDFResource(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException 
@@ -355,32 +379,18 @@ public class PmsFormController extends Functions
 		String UPLOADED_FOLDER = "F:/files/";
 		File file = new File(UPLOADED_FOLDER + request.getParameter("filename"));
 		System.out.println("FFFFFFFFFFFFFFFFFFFFFFFF"+request.getParameter("filename"));
-		if (file.exists()) {
-
-			//get the mimetype
+		if (file.exists()) 
+		{
 			String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-			if (mimeType == null) {
-				//unknown mimetype so set the mimetype to application/octet-stream
-				mimeType = "application/octet-stream";
+			if (mimeType == null)
+			{
+								mimeType = "application/octet-stream";
 			}
 
 			response.setContentType(mimeType);
 
-			/**
-			 * In a regular HTTP response, the Content-Disposition response header is a
-			 * header indicating if the content is expected to be displayed inline in the
-			 * browser, that is, as a Web page or as part of a Web page, or as an
-			 * attachment, that is downloaded and saved locally.
-			 * 
-			 */
-
-			/**
-			 * Here we have mentioned it to show inline
-			 */
+			
 			response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
-
-			 //Here we have mentioned it to show as attachment
-			 //response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
 
 			response.setContentLength((int) file.length());
 
@@ -397,13 +407,18 @@ public class PmsFormController extends Functions
 	{
 		int table_id = (int)session.getAttribute("table_id");
 		faculty = (Faculty)session.getAttribute("obj");
-		int year_id =1;
+		//int year_id =1;
 		System.out.println("Object -ID IN SESSION ===" + faculty.getId());
 		System.out.println("TABLE  ID ======"+table_id);
-		String SELECT_SQL_1 = "SELECT * FROM facultypoints WHERE id='"+faculty.getId()+"' AND year_id='"+year_id+"' AND table_id='"+table_id+"'";
+		String SELECT_SQL_1 = "SELECT * FROM facultypoints WHERE id='"+faculty.getId()+"' AND year_id='"+y_id+"' AND table_id='"+table_id+"'";
 		System.out.println("SQL"+SELECT_SQL_1);
 		
 		List<FacultyPointsRowMap> fprm = new ArrayList<FacultyPointsRowMap>();
+		
+		if(session.getAttribute("fprm")!=null)
+		{
+			session.removeAttribute("fprm");
+		}
 		
 		try
 		{

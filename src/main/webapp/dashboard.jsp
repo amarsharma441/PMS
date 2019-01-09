@@ -44,8 +44,43 @@
      .btn{
       margin-top: 50px;
      }
+     
+@import "compass/css3";
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  
+}
+
+.flex-item {
+  background: darkgrey;
+  padding: 5px;
+  width: 250px;
+  height: 200px;
+  margin-top: 20px;
+  
+  line-height: 200px;
+  color: black;
+  font-weight: bold;
+  font-size: 1.5em;
+  text-align: center;
+  border-radius: 15px;
+}
     </style>
 </head>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <body>
 <nav class="navbar navbar-default">
 <div class="container-fluid">
@@ -62,13 +97,17 @@
 </nav>
 <div class="container-fluid">
   <div class="welcome_mes text-center">
-    <h2>Welcome ${obj.name} to PMS</h2>
+    <h2>Welcome ${obj.name}</h2>
   </div>
 
 
   <center>
-<button class="btn btn-primary btn-lg" onclick="window.location.href='\pmsform'">Procced to Portal</button>
-
+<ul class="flex-container">
+<c:forEach begin="1" end="${sessionScope.years}" var="y">
+  <a href="/pmsform?year_id=${y}"><li class="flex-item">PMS ${2017+y}-${18+y}</li></a>
+ </c:forEach>
+ <a href="/pmsform?year_id=${sessionScope.years + 1}"><li class="flex-item">+</li></a>
+</ul>
 </center>
 
  </div>

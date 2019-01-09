@@ -76,6 +76,17 @@ public class SignUpController extends Functions
 				if(ROW_AFFECTED >0)
 				{
 					AddInSession(faculty ,session);
+					//******* initial filling of noofyears table *********//
+					String INSERT_SQL_1 = "INSERT INTO noofyears(id,years) VALUES(:id,:years)";
+					
+					parameters = new MapSqlParameterSource()
+							.addValue("id", faculty.getId())
+                            .addValue("years",0);
+					
+					 
+					namedParameterJdbcTemplate.update(INSERT_SQL_1, parameters);
+					
+					//****************************************************//
 					System.out.println("================INSERTION SUCCESSFULL");		//USE OBJ IN dashboard.jsp TO DISPLAY DETAILS
 				}
 				return "redirect:dashboard";
