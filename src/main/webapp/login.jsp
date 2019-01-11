@@ -69,7 +69,7 @@
                             <label class="control-label">Employee ID:</label>
                       </div>
                         <div class="col-lg-6">
-                            <input type="text" name="id" maxlength="8" />
+                            <input type="text" name="id" maxlength="8" required/>
                          </div>
                   </div>
 
@@ -81,7 +81,7 @@
                        <label class="control-label">Password : </label>
                       </div>
                         <div class="col-lg-6">
-                            <input type="password" name="password"/>
+                            <input type="password" name="password" required/>
                          </div>
                   </div>
 

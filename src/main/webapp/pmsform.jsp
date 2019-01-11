@@ -73,12 +73,14 @@ body{
 		<h1>Performance Managment System</h1>
 	</div>
 	<div class="text-center" style="margin-top: 70px;margin-bottom: 60px;">
-		<h3> UPDATE | VIEW | DOWNLOAD</h3>
+		<h3> <a href="#">UPDATE</a> | <a href="#">VIEW</a> | <a href="#">DOWNLOAD</a> </h3>
 	</div>
 
+<c:if test ="${sessionScope.wdrm.isEmpty() == true}">
 <div class="row">
 	<div class="col-lg-3 col-md-3 col-sm-3">
 		<h3 class="text-center">SET WEIGHT</h3>
+		
 
 <form action="/setweight">
 <div class="row">
@@ -114,6 +116,28 @@ body{
 <div class="col-md-6 col-sm-6 col-lg-6 text-center">
 	<img src="weight_table1.jpg"/><br>
 </div>
+</c:if>
+
+<c:if test ="${sessionScope.wdrm.isEmpty() == false}">
+<table>
+   <tr>
+      <th>Academics Weight</th>
+      <th>Research Weight</th>
+      <th>Administration Weight</th>
+     </tr>
+
+  <c:forEach items="${sessionScope.wdrm}" var="w">
+      <tr>
+        <td>${w.getAcademics_weight()}</td>
+        <td>${w.getResearch_weight()}</td>
+        <td>${w.getAdministration_weight()}</td>
+     </tr>
+  </c:forEach>
+  </table>
+<br><br>
+</c:if>
+
+
 <div class="col-sm-3 col-md-3 col-lg-3">
 <h1>UPDATE</h1>
 

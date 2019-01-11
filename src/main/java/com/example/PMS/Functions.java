@@ -2,6 +2,9 @@ package com.example.PMS;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +15,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import models.Faculty;
+import models.FacultyPointsRowMap;
+import models.WeightDetails;
 
 public class Functions 
 {
@@ -32,9 +37,11 @@ public class Functions
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	Faculty faculty;
+	
 	public int noofyears(HttpSession session)
 	{
-		Faculty faculty = (Faculty)session.getAttribute("obj");
+		faculty = (Faculty)session.getAttribute("obj");
 		String SQL = "SELECT * FROM noofyears WHERE id=:id";
 		SqlParameterSource parameters1 = new MapSqlParameterSource()
 				.addValue("id",faculty.getId());
@@ -52,5 +59,34 @@ public class Functions
 			        }
 				});
 		return noofyears;
+	}
+	
+	public List<WeightDetails> isWeightsExists(int y_id)
+	{
+		
+		String SQL = "SELECT * FROM weightdetails WHERE id=:id AND year_id=:year_id";
+		SqlParameterSource parameters1 = new MapSqlParameterSource()
+				.addValue("id",faculty.getId())
+				.addValue("year_id",y_id);
+		
+		List<WeightDetails> wdrm = new ArrayList<WeightDetails>();
+		wdrm.clear();
+			wdrm= namedParameterJdbcTemplate.query(SQL,parameters1,
+				
+				new RowMapper<WeightDetails>() 
+				{
+			        public WeightDetails mapRow(ResultSet rs, int rowNum) throws SQLException 
+			        {
+			        	WeightDetails wd = new WeightDetails();
+			        	
+			            wd.setAcademics_weight(rs.getFloat("academics_weight"));
+			            wd.setResearch_weight(rs.getFloat("research_weight"));
+			            wd.setAdministration_weight(rs.getFloat("administration_weight"));
+			            System.out.println("WDDDDDDDDDDDDD"+wd.getAcademics_weight()+wd.getAdministration_weight()+wd.getResearch_weight());
+			            return wd;
+			        }
+				});
+		return wdrm;
+			
 	}
 }

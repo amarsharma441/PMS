@@ -59,43 +59,43 @@
         <form class="form-horizontal" action="signup-dashboard" method="post">
             	<div class="form-group form-group-lg">
             	    <label class="control-label col-sm-4">Employee ID:</label>
-            	    <div class="col-sm-8"><input type="text" name="id" maxlength="8" size="30" /></div>
+            	    <div class="col-sm-8"><input type="text" name="id" maxlength="8" size="30" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Name:</label>
-            	    <div class="col-sm-8"><input type="text" name="name" size="30" /></div>
+            	    <div class="col-sm-8"><input type="text" name="name" size="30" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Designation:</label>
-            	    <div class="col-sm-8"><input type="text" name="designation" size="30" /></div>
+            	    <div class="col-sm-8"><input type="text" name="designation" size="30" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Department:</label>
-            	    <div class="col-sm-8"><input type="text" name="department" size="30"  /></div>
+            	    <div class="col-sm-8"><input type="text" name="department" size="30"  required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Qualification:</label>
-            	    <div class="col-sm-8"><input type="text" name="qualifications" size="30"  /></div>
+            	    <div class="col-sm-8"><input type="text" name="qualifications" size="30"  required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Date of Birth:</label>
-            	    <div class="col-sm-8"><input type="date" name="dob" size="30"/></div>
+            	    <div class="col-sm-8"><input type="date" name="dob" size="30" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Date of Joining:</label>
-            	    <div class="col-sm-8"><input type="date" name="doj" size="30"/></div>
+            	    <div class="col-sm-8"><input type="date" name="doj" size="30" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Appraiser Name:</label>
-            	    <div class="col-sm-8"><input type="text" name="appraiser_name"size="30" /></div>
+            	    <div class="col-sm-8"><input type="text" name="appraiser_name"size="30" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Password:</label>
-            	    <div class="col-sm-8"><input type="password" name="password" size="30" /></div>
+            	    <div class="col-sm-8"><input type="password" name="password" size="30" required/></div>
             	</div>
                 <div class="form-group ">
                     <label class="control-label col-sm-4">Confirm Password : </label>
-                    <div class="col-sm-8"><input type="password" name="conpassword" size="30"/></div>
+                    <div class="col-sm-8"><input type="password" name="conpassword" size="30" required/></div>
                  </div>
 
                 <input class="btn btn-primary" type="submit"/>

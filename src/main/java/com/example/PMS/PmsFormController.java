@@ -66,6 +66,7 @@ public class PmsFormController extends Functions
 		SqlParameterSource namedParameters = new MapSqlParameterSource();
 		
 		int noofyears = (int) noofyears(session);
+		
 		try
 		{
 			y_id =(int) Integer.parseInt(request.getParameter("year_id"));
@@ -76,6 +77,7 @@ public class PmsFormController extends Functions
 		}
 		finally
 		{
+			session.setAttribute("wdrm",isWeightsExists(y_id));
 			if(noofyears < y_id)
 			{
 				String UPDATE_SQL ="UPDATE noofyears SET years=:years WHERE id=:id";
