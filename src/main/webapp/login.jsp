@@ -15,7 +15,8 @@
     <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
     <style>
     body{
-        background-color:white;
+        background-image: url("Silver-Blur-Background-Wallpaper.jpg");
+        background-size: cover;
         font-family: 'ABeeZee';
 
     }
@@ -37,12 +38,11 @@
             margin-top:10%:
             color:black;
         }
-        .logo{
-            background-color:white;
 
-        }
-        .jumbotron{
-          background-color: white;
+        .name{
+
+          margin-top: 50px;
+          margin-bottom: 100px;
         }
     </style>
 
@@ -52,8 +52,8 @@
 <div class="logo">
     <img src="mulogo.png"/>
 </div>
-    <div class="jumbotron text-center">
-        <h3>Performance Managment System</h3>
+    <div class="text-center name">
+        <h2>Performance Managment System</h2>
     </div>
 <div class="container-fluid " style="text-align :center;">
 <center>
@@ -90,7 +90,7 @@
 
                  </div>
                  <c:if test ="${sessionScope.true_user == false}">
-                 	<h5> Wrong Password <br> Please try again</h5>
+                 	<h5> Wrong Password </h5>
                  </c:if>
                 <input class="btn btn-primary" type="submit"/>
                 
