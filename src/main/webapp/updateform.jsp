@@ -134,12 +134,13 @@ body{
         		<td><input type="file" name="files" /></td>
         	</c:if>
         	<c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) > 0}">
+        		</form>
         		<td>
         		<form action="/download" method="post">
-				<button class="btn" name="filename" type="submit" value="${fprm.get(t.getRow_id()-1).getProof_filename()}">${fprm.get(t.getRow_id()-1).getProof_filename()}</button>
-			<!--	</form>  -->
-			<!--	<form action="/removefile" method="get">  -->
-			<!--	<button class="btn">Remove</button>   -->
+				<button class="btn" name="filename" value="${fprm.get(t.getRow_id()-1).getProof_filename()}">${fprm.get(t.getRow_id()-1).getProof_filename()}</button>
+				</form>
+				<form action="/remove" method="post">
+				<button class="btn" name="filedetails" value="${fprm.get(t.getRow_id()-1).getProof_filename()},${fprm.get(t.getRow_id()-1).getYear_id()},${fprm.get(t.getRow_id()-1).getTable_id()},${fprm.get(t.getRow_id()-1).getRow_id()}">Remove</button>
 				</form>
         		</td>
        		</c:if>

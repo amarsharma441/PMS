@@ -120,6 +120,7 @@ body{
 
 <c:if test ="${sessionScope.wdrm.isEmpty() == false}">
 <table>
+   <h2> PMS : Weight Details </h2>
    <tr>
       <th>Academics Weight</th>
       <th>Research Weight</th>

@@ -402,7 +402,53 @@ public class PmsFormController extends Functions
 
 		}
 	}
-
+	@RequestMapping("/remove")
+	public String removefile(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException 
+	{
+		String UPLOADED_FOLDER = "F:/files/";
+		faculty = (Faculty)session.getAttribute("obj");
+		
+		
+		StringBuffer sb = new StringBuffer( request.getParameter("filedetails"));
+		
+		String row = sb.substring(sb.lastIndexOf(",")+1, sb.length());
+		sb = new StringBuffer(sb.substring(0,sb.lastIndexOf(",")));
+		
+		String table_id = sb.substring(sb.lastIndexOf(",")+1,sb.length());
+		sb = new StringBuffer(sb.substring(0,sb.lastIndexOf(",")));
+		
+		String year_id = sb.substring(sb.lastIndexOf(",")+1,sb.length());
+		String filename = sb.substring(0,sb.lastIndexOf(","));
+		
+		File file = new File(UPLOADED_FOLDER + filename);
+//		System.out.println("YEAR_ID"+ year_id);
+//		System.out.println("Table_ID"+ table_id);
+//		System.out.println("ROW_ID"+ row);
+//		System.out.println("FILE NAME"+ filename);
+		if(file.exists())
+		{
+			if(file.delete())
+			{
+				
+				SqlParameterSource namedParameters = new MapSqlParameterSource();
+				String UPDATE_SQL ="UPDATE facultypoints SET proof_filename=:proof_filename "
+						  + "WHERE id=:id AND year_id=:year_id AND table_id=:table_id AND row_id=:row_id";
+				((MapSqlParameterSource) namedParameters).addValue("proof_filename","");
+				((MapSqlParameterSource) namedParameters).addValue("id", faculty.getId());
+				((MapSqlParameterSource) namedParameters).addValue("year_id", year_id);
+				((MapSqlParameterSource) namedParameters).addValue("table_id", table_id);
+				((MapSqlParameterSource) namedParameters).addValue("row_id", row);
+				
+			    namedParameterJdbcTemplate.update(UPDATE_SQL, namedParameters);
+				System.out.println("File deleted successfully");
+			}
+			else
+			{
+				System.out.println("Fail to delete file");
+			}
+		}
+		return "redirect:pmsform";
+	}
 	
 	
 	public boolean isPointsExist(HttpSession session)

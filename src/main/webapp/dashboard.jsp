@@ -174,7 +174,7 @@
   </div>
   <div class="card-space ">
     <ul style="list-style-type: none;font-size:20px;padding-left: 4%;">
-      <li class="padding-bottom text-center"><a href="">Profile</a></li>
+      <li class="padding-bottom text-center"><a href="/profile">Profile</a></li>
       <li class="padding-bottom text-center "><a href="/logout">Logout</a></li>
     </ul>
 
