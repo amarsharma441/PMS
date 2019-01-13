@@ -92,7 +92,10 @@
                  <c:if test ="${sessionScope.true_user == false}">
                  	<h5> Wrong Password </h5>
                  </c:if>
-                <input class="btn btn-primary" type="submit"/>
+                 <c:if test ="${sessionScope.invalid_id == true}">
+                 	<h5> Invalid Id </h5>
+                 </c:if>
+                <input class="btn btn-primary" type="submit" value="Login"/>
                 
          </form>
          </div>

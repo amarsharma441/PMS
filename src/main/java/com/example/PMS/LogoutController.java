@@ -12,6 +12,7 @@ public class LogoutController
 	@RequestMapping("/logout")
 	public String Logout(HttpSession session)
 	{
+		//session.removeAttribute("obj");
 		session.invalidate();
 		System.out.println("LOGOUT SUCCESSFULL");
 		return "redirect:login";

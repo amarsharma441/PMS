@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,7 +24,7 @@ public class LoginController extends Functions
 {
 	private String SELECT_SQL = "SELECT * FROM facultydetails WHERE id=:id";
 	
-	private Faculty faculty;
+	private Faculty faculty=null;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -71,9 +72,18 @@ public class LoginController extends Functions
 		{
 			System.out.println("ID ===="+id);  //FOR TESTING
 			SqlParameterSource parameters = new MapSqlParameterSource().addValue("id", id);
+			try {
+				faculty = (Faculty) namedParameterJdbcTemplate.queryForObject(SELECT_SQL, parameters, new FacultyMapper());
+			}
+			catch(EmptyResultDataAccessException e)
+			{
+				session.setAttribute("invalid_id", true);
+				
+				return "redirect:login";
+			}
 			
-			faculty = (Faculty) namedParameterJdbcTemplate.queryForObject(SELECT_SQL, parameters, new FacultyMapper());
-		
+			
+			session.setAttribute("invalid_id", false);
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			true_user = passwordEncoder.matches(password,(faculty.getPassword()));
 			
