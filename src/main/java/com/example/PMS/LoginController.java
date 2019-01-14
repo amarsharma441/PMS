@@ -29,6 +29,20 @@ public class LoginController extends Functions
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	@RequestMapping("/")   //Mapping to open LogIn page (/login)
+	public String LogIn(HttpSession session)
+	{	
+		if(isLoggedIn(session))
+		{
+			
+			return "redirect:dashboard";
+		}
+		else
+		{
+			return "login.jsp";
+		}
+	}
+	
 	@RequestMapping("/login")   //Mapping to open LogIn page (/login)
 	public String LogInPage(HttpSession session)
 	{	

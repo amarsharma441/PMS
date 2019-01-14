@@ -59,7 +59,7 @@
         <form class="form-horizontal" action="signup-dashboard" method="post">
             	<div class="form-group form-group-lg">
             	    <label class="control-label col-sm-4">Employee ID:</label>
-            	    <div class="col-sm-8"><input type="text" name="id" maxlength="8" size="30" required/></div>
+            	    <div class="col-sm-8"><input type="text" name="id" id="emp_id" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Name:</label>
@@ -87,15 +87,15 @@
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Appraiser Name:</label>
-            	    <div class="col-sm-8"><input type="text" name="appraiser_name"size="30" required/></div>
+            	    <div class="col-sm-8"><input type="text" name="appraiser_name" size="30" required/></div>
             	</div>
             	<div class="form-group ">
             	    <label class="control-label col-sm-4">Password:</label>
-            	    <div class="col-sm-8"><input type="password" name="password" size="30" required/></div>
+            	    <div class="col-sm-8"><input type="password" name="password" placeholder="Password" id="password" size="30" required/></div>
             	</div>
                 <div class="form-group ">
                     <label class="control-label col-sm-4">Confirm Password : </label>
-                    <div class="col-sm-8"><input type="password" name="conpassword" size="30" required/></div>
+                    <div class="col-sm-8"><input type="password" name="conpassword" placeholder="Confirm Password" id="confirm_password" size="30" required/></div>
                  </div>
 
                 <input class="btn btn-primary" type="submit"/>
@@ -110,4 +110,32 @@
 
 
  </body>
+ 
+ <script type="text/javascript">
+
+ var password = document.getElementById("password")
+  , confirm_password = document.getElementById("confirm_password")
+  , emp_id = document.getElementById("emp_id");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+function validateID(){
+  if(emp_id.value.length == 7 && emp_id.value.search("M")==0 && emp_id.value.search("U")==1 && emp_id.value.search("J")==2 && emp_id.value.slice(3,7).length ==4) {
+    emp_id.setCustomValidity('');
+  } else {
+    emp_id.setCustomValidity("Invalid ID");
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+emp_id.onchange = validateID;
+
+</script>
+ 
 </html>
