@@ -41,7 +41,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <body>
- <div>
+ <div class="container-fluid">
+    <center>
       <a href="#"><img src="u2.jpg" class="img-circle" ></a>
       <i style="font-size:24px" class="fa" id="fa1">&#xf044;</i>
       <h3 style="color:black;" >${obj.name} <i style="font-size:24px" class="fa">&#xf044;</i> <h3>
@@ -52,6 +53,7 @@
       <h3 style="color:black;" >${obj.dob}  <i style="font-size:24px" class="fa">&#xf044;</i> <h3>
       <h3 style="color:black;" >${obj.doj}  <i style="font-size:24px" class="fa">&#xf044;</i> <h3>
       <h3 style="color:black;" >${obj.appraiser_name}  <i style="font-size:24px" class="fa">&#xf044;</i> <h3>
+        </center>
     </div>
 </body>
 </html>

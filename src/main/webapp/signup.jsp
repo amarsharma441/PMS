@@ -12,8 +12,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
     <style>
-    body{
-        background-color:rgb(235, 235, 224);
+    body{ background-image: url("Silver-Blur-Background-Wallpaper.jpg");
+        background-size: cover;
         font-family: 'ABeeZee';
 
     }
@@ -30,13 +30,13 @@
 
 
         }
-        .jumbotron{background-color:rgb(235, 235, 224);}
         .heade{
-            margin-top:10%:
+        	padding-top: 15px;
+
             color:black;
         }
         .logo{
-            background-color:white;
+            background-color:transparent;
 
         }
   		.col-sm-2{
@@ -48,13 +48,15 @@
 <div class="logo">
     <img src="mulogo.png"/>
 </div>
-    <div class="jumbotron text-center">
-        <h3>Performance Managment System</h3>
+    <div class=" text-center">
+        <h2>Performance Managment System</h2>
     </div>
 <div class="container-fluid " style="text-align :center;">
+
 <center>
-	<h2 class="heade ">Sign Up</h2>
+
         <div class="input-form" >
+        	<h2 class="heade ">Sign Up</h2>
         <br/>
         <form class="form-horizontal" action="signup-dashboard" method="post">
             	<div class="form-group form-group-lg">
