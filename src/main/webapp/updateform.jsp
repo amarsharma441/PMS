@@ -37,9 +37,15 @@
 
 
 body{
+
         font-family: 'ABeeZee';
-		background-color:rgb(235, 235, 224);
-    }
+background-image: url("c4.jpg");
+    background-size: cover;
+        }
+        .navbar-default{
+  background-color: transparent;
+}
+
      .welcome_mes{
       color:black;
       margin: 5px;
@@ -67,7 +73,7 @@ body{
       align-self: center;
       margin-left: 44%;
      }
-     
+
      .btn {
     background-color: DodgerBlue;
     border: none;
@@ -81,6 +87,71 @@ body{
 .btn:hover {
     background-color: RoyalBlue;
 }
+
+
+
+
+      @-webkit-keyframes open{
+      from{left:-500px;}
+      to{left:0px;}
+     }
+     @keyframes open{
+      from{left:-500px;}
+      to{left:0px;}
+     }
+     .open-dialog{
+      animation-name: open;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      -webkit-animation-name:open;
+      -webkit-animation-duration: 1s;
+      -webkit-animation-fill-mode: forwards;
+     }
+     .close-dialog{
+      animation-name: close;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      -webkit-animation-name:close;
+      -webkit-animation-duration: 1s;
+      -webkit-animation-fill-mode: forwards;
+
+     }
+      @-webkit-keyframes close{
+      from{left:0px;}
+      to{left:-500px;}
+     }
+     @keyframes close{
+      from{left:0px;}
+      to{left:-500px;}
+     }
+.padding-bottom{
+  padding-bottom: 50px;
+}
+.pd{
+  padding-bottom: 10px;
+}
+.padding-left{
+  padding-left: 30px;
+}
+.a{
+    width:250px;
+    position: absolute;
+    top: 0px;
+    left:0px;
+    height: 100%;
+    background-image: url("c4.jpg");
+    background-size: cover;
+    display: none;
+    z-index: 1;
+}
+.card {
+  padding: 10px;
+}
+.card-image{
+  padding-bottom: 20px;
+}
+
+
 </style>
 
 </head>
@@ -89,26 +160,50 @@ body{
 
 <body>
 
-<nav class="navbar navbar-default">
-<div class="container-fluid">
-<div class="navbar-header" >
-  <span class="glyphicon glyphicon-tasks btn-lg"></span>
-</div>
-
-  <ul class="nav navbar-nav navbar-right">
+<nav class="navbar-default ">
+  <div class="container-fluid">
+    <ul class=" nav navbar-header " style="font-size:30px;">
       <li>
-        <a href="/logout"><span class="glyphicon glyphicon-log-in a"></span> Signout </a>
+      <button onclick=opendialog() style="background-color: transparent;border:none;font-size:40px;"><span class="glyphicon glyphicon-align-left"></span></button>
       </li>
     </ul>
-</div>
+    <ul class="nav navbar-right">
+        <li><img src="mulogo.png" class="logo"></li>
+    </ul>
+  </div>
 </nav>
+
+
+<div class="card a" id="dailog">
+  <div class="text-right padding-bottom">
+    <button onclick=closedialog() style="background-color: transparent;border:none;font-size:20px;"><span class="glyphicon glyphicon-remove"></span></button>
+  </div>
+  <div class="card-image">
+    <img src="u2.jpg" class="img-circle" >
+  </div>
+  <div class="card-title text-center padding-bottom">
+    <h3>${obj.name}</h3>
+  </div>
+  <div class="card-space ">
+    <ul style="list-style-type: none;font-size:20px;padding-left: 4%;">
+      <li class="padding-bottom text-center"><a href="/profile">Profile</a></li>
+      <li class="padding-bottom text-center "><a href="/logout">Logout</a></li>
+    </ul>
+
+
+
+  </div>
+</div>
+
+
+
 <div class="container-fluid">
 <div class="text-center">
   <h3>Performance Managment System</h3>
 </div>
 <div class="conatiner">
   <c:if test ="${sessionScope.trm != null}">
-	
+
   <form action="/updatepoints" method="post" enctype="multipart/form-data">
   <table id="customers">
    <tr>
@@ -129,21 +224,21 @@ body{
         <td><input type="number" name="ep_row${t.getRow_id()}" value="${fprm.get(t.getRow_id()-1).getExpected_points()}" min="0" max="${t.getMaximum_points()}" /></td>
         <td>0</td>
         <td><input type="text" name="comment_row${t.getRow_id()}"  value="${fprm.get(t.getRow_id()-1).getComment()}"/></td>
-        
-        	<c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) == 0}">
-        		<td><input type="file" name="files" /></td>
-        	</c:if>
-        	<c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) > 0}">
-        		</form>
-        		<td>
-        		<form action="/download" method="post">
-				<button class="btn" name="filename" value="${fprm.get(t.getRow_id()-1).getProof_filename()}">${fprm.get(t.getRow_id()-1).getProof_filename()}</button>
-				</form>
-				<form action="/remove" method="post">
-				<button class="btn" name="filedetails" value="${fprm.get(t.getRow_id()-1).getProof_filename()},${fprm.get(t.getRow_id()-1).getYear_id()},${fprm.get(t.getRow_id()-1).getTable_id()},${fprm.get(t.getRow_id()-1).getRow_id()}">Remove</button>
-				</form>
-        		</td>
-       		</c:if>
+
+          <c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) == 0}">
+            <td><input type="file" name="files" /></td>
+          </c:if>
+          <c:if test ="${fn:length(fprm.get(t.getRow_id()-1).getProof_filename()) > 0}">
+            </form>
+            <td style="display:inline">
+            <form action="/download" method="post">
+        <button class="btn btn-primary" name="filename" value="${fprm.get(t.getRow_id()-1).getProof_filename()}">${fprm.get(t.getRow_id()-1).getProof_filename()}</button>
+        </form>
+        <form action="/remove" method="post">
+        <button class="btn btn-primary" name="filedetails" value="${fprm.get(t.getRow_id()-1).getProof_filename()},${fprm.get(t.getRow_id()-1).getYear_id()},${fprm.get(t.getRow_id()-1).getTable_id()},${fprm.get(t.getRow_id()-1).getRow_id()}">Remove</button>
+        </form>
+            </td>
+          </c:if>
      </tr>
   </c:forEach>
 
@@ -155,5 +250,21 @@ body{
 </div>
 </div>
 </body>
+<script type="text/javascript">
+
+  function opendialog()
+  {
+    var ele=document.getElementById("dailog");
+    ele.classList.add("open-dialog");
+    ele.classList.remove("close-dialog");
+    ele.style.cssText='display:block';
+  }
+  function closedialog()
+  {
+    var ele=document.getElementById("dailog");
+    ele.classList.add("close-dialog");
+    ele.classList.remove("open-dialog");
+  }
+</script>
 
 </html>

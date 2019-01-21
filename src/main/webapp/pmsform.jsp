@@ -12,30 +12,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
     <style>
-
 body{
-
         font-family: 'ABeeZee';
 background-image: url("c4.jpg");
-		background-size: cover;
-		    }
+    background-size: cover;
+        }
      .welcome_mes{
-     	color:black;
-     	margin: 5px;
+      color:black;
+      margin: 5px;
      }
      .block{
-     	width: auto;
-     	cursor: pointer;
-     	padding: 30px;
-     	text-align: center;
-
+      width: auto;
+      cursor: pointer;
+      padding: 30px;
+      text-align: center;
      }
-
 .navbar-default{
   background-color: transparent;
 }
-
-
       @-webkit-keyframes open{
       from{left:-500px;}
       to{left:0px;}
@@ -59,7 +53,6 @@ background-image: url("c4.jpg");
       -webkit-animation-name:close;
       -webkit-animation-duration: 1s;
       -webkit-animation-fill-mode: forwards;
-
      }
       @-webkit-keyframes close{
       from{left:0px;}
@@ -70,13 +63,13 @@ background-image: url("c4.jpg");
       to{left:-500px;}
      }
 .padding-bottom{
-	padding-bottom: 50px;
+  padding-bottom: 50px;
 }
 .pd{
-	padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 .padding-left{
-	padding-left: 30px;
+  padding-left: 30px;
 }
 .a{
     width:250px;
@@ -100,32 +93,28 @@ background-image: url("c4.jpg");
   background-color: transparent;
 }
      .block-sm{
-     	width: auto;
-     	cursor: pointer;
-     	padding-top: 30px;
-     	text-align: center;
+      width: auto;
+      cursor: pointer;
+      padding-top: 30px;
+      text-align: center;
      }
      .block1 ,.final{
-     	display: none;
+      display: none;
      }
      .bloackdis{
-     	display: block;
+      display: block;
      }
      .label{
-     	color:black;
-     	margin-right: 5px;
-     	font-size: 14px;
+      color:black;
+      margin-right: 5px;
+      font-size: 14px;
      }
      .input-form{
             text-align:center;
             border-radius :3px;
             color:black;
-
-
             padding: 7px;
         background-color:rgb(230, 230, 230);
-
-
         }
 </style>
 
@@ -169,40 +158,40 @@ background-image: url("c4.jpg");
 
 
 <div class="container-fluid ">
-	<div class="text-center " style="padding-bottom: 80px">
-		<h1>Performance Managment System</h1>
-	</div>
+  <div class="text-center " style="padding-bottom: 80px">
+    <h1>Performance Managment System</h1>
+  </div>
 
 
 <c:if test ="${sessionScope.wdrm.isEmpty() == true}">
 <div class="row pd">
-	<div class="col-lg-4 col-md-4 col-sm-4 input-form" >
-		<h2 class="text-center">SET WEIGHT</h2>
+  <div class="col-lg-4 col-md-4 col-sm-4 input-form" >
+    <h2 class="text-center">SET WEIGHT</h2>
 
 
 <form action="/setweight">
 <div class="row pd">
-	<div class="col-lg-6"><label class="label" for="branch">Academic weight</label>
-	</div>
-	<div class="col-lg-6">
-		<input type="text" name="academics_weight" required><br>
-	</div>
+  <div class="col-lg-6"><label class="label" for="branch">Academic weight</label>
+  </div>
+  <div class="col-lg-6">
+    <input type="text" name="academics_weight" required><br>
+  </div>
 </div>
 <div class="row pd">
-	<div class="col-lg-6">
-		<label class="label" for="branch">Administration weight</label>
-	</div>
-	<div class="col-lg-6">
-		<input type="text" name="administration_weight" required><br>
-	</div>
+  <div class="col-lg-6">
+    <label class="label" for="branch">Administration weight</label>
+  </div>
+  <div class="col-lg-6">
+    <input type="text" name="administration_weight" required><br>
+  </div>
 </div>
 <div class="row pd">
-	<div class="col-lg-6">
-		<label class="label" for="branch">Research weight</label>
-	</div>
-	<div class="col-lg-6">
-		<input type="text" name="research_weight" required><br>
-	</div>
+  <div class="col-lg-6">
+    <label class="label" for="branch">Research weight</label>
+  </div>
+  <div class="col-lg-6">
+    <input type="text" name="research_weight" required><br>
+  </div>
 </div>
 
 
@@ -211,7 +200,7 @@ background-image: url("c4.jpg");
 </form>
 </div>
 <div class="col-md-4 col-sm-4 col-lg-4 text-center" style="padding: 0px">
-	<img src="weight_table1.jpg" width="435px" /><br>
+  <img src="weight_table1.jpg" width="435px" /><br>
 </div>
 </c:if>
 
@@ -261,7 +250,6 @@ background-image: url("c4.jpg");
 </body>
 
 <script type="text/javascript">
-
   function opendialog()
   {
     var ele=document.getElementById("dailog");
